@@ -1,25 +1,35 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import ProductsList from "./components/ProductsList/ProductsList";
+import ShoppingList from "./components/ShoppingList/ShoppingList";
+import "./App.css";
 
-function App() {
+const App = () => {
+  const [shoppingList, setShoppingList] = useState([]);
+
+  const handleAddToShoppingList = (product) => {
+    setShoppingList([...shoppingList, product]);
+  };
+
+  const handleRemoveFromShoppingList = (event, index) => {
+    event.preventDefault(); // Zapobiega domyślnemu zachowaniu menu kontekstowego
+    const newShoppingList = [...shoppingList];
+    newShoppingList.splice(index, 1);
+    setShoppingList(newShoppingList);
+  };
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <div>
+        <ProductsList onAddToShoppingList={handleAddToShoppingList} />
+      </div>
+      <div>
+        <ShoppingList
+          shoppingList={shoppingList}
+          onRemoveFromShoppingList={handleRemoveFromShoppingList}
+        />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
